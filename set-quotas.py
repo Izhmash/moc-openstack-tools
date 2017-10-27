@@ -100,6 +100,11 @@ def parse_rows(rows, select_project=None):
             for quota_name, value in quotas.iteritems():
                 quotas[quota_name] = int(value)
 
+            # Initial port padding based off of instance and network amount.
+            if 'instances' and 'port' in quotas:
+                quotas['port'] = quotas['port'] + \
+                    quotas['networks'] * quotas['instances'] * 3 + 5
+
             # OpenStack wants the RAM quota in MB, but the form requests it in
             # GB so the users aren't confused by multiplying by 1000 vs. 1024
             if 'ram' in quotas:
