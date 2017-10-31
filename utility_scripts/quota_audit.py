@@ -120,7 +120,7 @@ cinder = cinderclient.Client(session=sess)
 with open(args.filename, "rb") as source:
     READER = list(csv.DictReader(source))
 
-MOC_STANDARDS = {'subnet': 10, 'router': 10, 'port': 10, 'network': 5,
+MOC_STANDARDS = {'subnet': 10, 'router': 10, 'port': 155, 'network': 5,
                  'floatingip': 2, 'security_group': -1,
                  'security_group_rule': -1, 'ram': 51200, 'gigabytes': 1000,
                  'snapshots': 10, 'volumes': 10,

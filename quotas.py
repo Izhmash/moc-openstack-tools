@@ -78,8 +78,11 @@ class QuotaManager:
             # two DHCP ports and one router interface.
             # Multiply by VM count and add 5 in the end for padding.
             added_networks = kwargs['network'] - current_quotas['network']
-            current_vms = current_quotas['instances']
-            add_port_count = (current_vms * added_networks * 3) + 5
+            if ('instances' in kwargs):
+                current_vms = current_quotas['instances']
+                add_port_count = (current_vms * added_networks * 3) + 5
+            else:
+                add_port_count = (added_networks * 3) + 5
         
         if ('instances' in kwargs):
             # Get a count of existing ports not used by instances
