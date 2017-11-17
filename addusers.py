@@ -115,7 +115,7 @@ class Openstack:
  
         try:
             project_email.send()
-        except:
+        except BaseException:
             path = config.get('output', 'email_path')
             project_email.dump_to_file(target_path=path, label="new_project")
             raise
@@ -155,7 +155,7 @@ class Openstack:
         try:
             welcome_email.send()
             password_email.send()
-        except:
+        except BaseException:
             # Save both emails if either throws an error, just in case
             path = config.get('output', 'email_path')
             welcome_email.dump_to_file(target_path=path, label="welcome")
@@ -310,7 +310,7 @@ def parse_rows(rows, select_user=None):
                     # project entry, so if it was left blank it's not there
                     # FIXME by changing field order on the forms?
                     pass
-                except:
+                except BaseException:
                     # If the user typed something in this box but didn't
                     # follow instructions
                     print ("WARNING: cannot add additional users to "

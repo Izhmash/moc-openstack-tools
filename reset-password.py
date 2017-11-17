@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
     try:
         email.send()
-    except:
+    except BaseException:
         email.dump_to_file(config)
         raise
         
