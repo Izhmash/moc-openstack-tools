@@ -27,7 +27,7 @@ class QuotaManager:
         self.nova = novaclient.Client(nova_version, session=session)
         self.neutron = neutronclient.Client(session=session)
         self.cinder = cinderclient.Client(session=session)
-  
+
     def get_current(self, proj_id):
         """ Get the current quotas for multiple services"""
         nova = self.nova.quotas.get(proj_id).to_dict()
@@ -52,14 +52,14 @@ class QuotaManager:
                 # so we can use the name instead of the ID here
                 print ("NOTICE: Auto-adjusted port quota to {} "
                        "for project {}").format(new_port_quota, project_id)
-        
+
         neutron_quotas = {"quota": new_quotas['neutron']}
         new_neutron = self.neutron.update_quota(project_id,
                                                 body=neutron_quotas)
         new_nova = self.nova.quotas.update(project_id, **new_quotas['nova'])
         new_cinder = self.cinder.quotas.update(project_id,
                                                **new_quotas['cinder'])
- 
+
         all_quotas = _get_single_dict(new_nova, new_neutron, new_cinder)
         return all_quotas
 
@@ -83,13 +83,13 @@ class QuotaManager:
                 add_port_count = (current_vms * added_networks) + 5
             else:
                 add_port_count = (added_networks) + 5
-        
+
         if ('instances' in kwargs):
             # Get a count of existing ports not used by instances
             port_list = self.neutron.list_ports(project=project_id)['ports']
             non_compute_ports_used = len([p for p in port_list if
                                           p['device_owner'] != 'compute:nova'])
-            
+
             # Check whether we will have at least (1 + padding) ports
             # per instance.
             min_ports_needed = kwargs['instances'] + non_compute_ports_used
